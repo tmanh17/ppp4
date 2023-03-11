@@ -1,0 +1,49 @@
+root@a4109dc9c466:/workspaces/plutus-pioneer-program/code/Week03# cabal test
+Build profile: -w ghc-8.10.7 -O1
+In order, the following will be built (use -v for more details):
+ - week03-0.1.0.0 (lib) (file homework/Homework1.hs changed)
+ - week03-0.1.0.0 (test:week03-homework) (dependency rebuilt)
+Preprocessing library for week03-0.1.0.0..
+Building library for week03-0.1.0.0..
+[4 of 4] Compiling Homework1        ( homework/Homework1.hs, /workspaces/plutus-pioneer-program/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week03-0.1.0.0/build/Homework1.o, /workspaces/plutus-pioneer-program/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week03-0.1.0.0/build/Homework1.dyn_o )
+Preprocessing test suite 'week03-homework' for week03-0.1.0.0..
+Building test suite 'week03-homework' for week03-0.1.0.0..
+Running 1 test suites...
+Test suite week03-homework: RUNNING...
+Homework tests
+  All times are in POSIXTime (Not slots)
+    Testing Homework1
+      Beneficiary 1 signing
+        Deadline: 6000; TxValidRange (5000, 5999): OK (0.03s)
+        Deadline: 6000; TxValidRange (5000, 6000): OK
+        Deadline: 6000; TxValidRange (5000, 6999): OK
+        Deadline: 6000; TxValidRange (5999, 6001): OK
+        Deadline: 6000; TxValidRange (6999, 6999): OK
+        Deadline: 6000; TxValidRange (7000, 8000): OK
+        Deadline: 6000; TxValidRange (5000, 7000): OK
+        Deadline: 6000; TxValidRange (6000, 7000): OK
+        Deadline: 6000; TxValidRange (6999, 7000): OK
+      Beneficiary 2 signing
+        Deadline: 5000; TxValidRange (6000, 7000): OK
+        Deadline: 4999; TxValidRange (5000, 6000): OK
+        Deadline: 6000; TxValidRange (5000, 5999): OK
+        Deadline: 5000; TxValidRange (5000, 6000): OK
+        Deadline: 5000; TxValidRange (5001, 6000): OK
+        Deadline: 5000; TxValidRange (5999, 6000): OK
+      None signing:                                OK
+    Testing Homework2
+      Deadline: 5000; TxValidRange (6000, 7000):   OK (0.01s)
+      Deadline: 5000; TxValidRange (5000, 5000):   OK
+      Deadline: 5000; TxValidRange (5000, 6000):   OK (0.01s)
+      Deadline: 5000; TxValidRange (5001, 6000):   OK
+      Deadline: 5000; TxValidRange (5999, 6000):   OK (0.01s)
+      Deadline: 5000; TxValidRange (4000, 5000):   OK
+      Deadline: 5000; TxValidRange (4999, 5000):   OK (0.01s)
+      Deadline: 5000; TxValidRange (4999, 5999):   OK (0.01s)
+
+All 24 tests passed (0.15s)
+Test suite week03-homework: PASS
+Test suite logged to:
+/workspaces/plutus-pioneer-program/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week03-0.1.0.0/t/week03-homework/test/week03-0.1.0.0-week03-homework.log
+1 of 1 test suites (1 of 1 test cases) passed.
+root@a4109dc9c466:/workspaces/plutus-pioneer-program/code/Week03#

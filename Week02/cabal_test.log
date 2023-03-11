@@ -1,0 +1,33 @@
+
+root@a4109dc9c466:/workspaces/plutus-pioneer-program/code/Week02# cabal test
+Build profile: -w ghc-8.10.7 -O1
+In order, the following will be built (use -v for more details):
+ - week02-0.1.0.0 (lib) (file homework/Homework2.hs changed)
+ - week02-0.1.0.0 (test:week02-homework) (dependency rebuilt)
+Preprocessing library for week02-0.1.0.0..
+Building library for week02-0.1.0.0..
+[7 of 7] Compiling Homework2        ( homework/Homework2.hs, /workspaces/plutus-pioneer-program/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week02-0.1.0.0/build/Homework2.o, /workspaces/plutus-pioneer-program/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week02-0.1.0.0/build/Homework2.dyn_o )
+Preprocessing test suite 'week02-homework' for week02-0.1.0.0..
+Building test suite 'week02-homework' for week02-0.1.0.0..
+[1 of 1] Compiling Main             ( tests/THomework.hs, /workspaces/plutus-pioneer-program/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week02-0.1.0.0/t/week02-homework/build/week02-homework/week02-homework-tmp/Main.o ) [Homework2 changed]
+Linking /workspaces/plutus-pioneer-program/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week02-0.1.0.0/t/week02-homework/build/week02-homework/week02-homework ...
+Running 1 test suites...
+Test suite week02-homework: RUNNING...
+Homework tests
+  Testing Homework1
+    Case: (True, True):           OK (0.77s)
+    Case: (True, False):          OK
+    Case: (False, True):          OK
+    Case: (False, False):         OK
+  Testing Homework2
+    Case: MyRedeemer True True:   OK
+    Case: MyRedeemer True False:  OK
+    Case: MyRedeemer False True:  OK
+    Case: MyRedeemer False False: OK
+
+All 8 tests passed (0.81s)
+Test suite week02-homework: PASS
+Test suite logged to:
+/workspaces/plutus-pioneer-program/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week02-0.1.0.0/t/week02-homework/test/week02-0.1.0.0-week02-homework.log
+1 of 1 test suites (1 of 1 test cases) passed.
+root@a4109dc9c466:/workspaces/plutus-pioneer-program/code/Week02# 
