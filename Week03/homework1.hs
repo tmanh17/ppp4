@@ -7,7 +7,7 @@
 
 module Homework1 where
 
-import           Plutus.V1.Ledger.Interval (contains, to)
+import           Plutus.V1.Ledger.Interval (contains, to, after, before)
 import           Plutus.V2.Ledger.Api      (BuiltinData, POSIXTime, PubKeyHash,
                                             ScriptContext (scriptContextTxInfo),
                                             TxInfo (txInfoValidRange),
@@ -46,12 +46,18 @@ mkVestingValidator dat () ctx = traceIfFalse "Only onwer is able to spend Tx bef
         signedBySecondBeneficiary :: Bool
         signedBySecondBeneficiary = txSignedBy info $ beneficiary2 dat
 
+        -- deadlinePassed :: Bool
+        -- deadlinePassed = contains (from $ deadline dat + 1) $ txInfoValidRange info
+
+        -- deadlineNotReached :: Bool
+        -- deadlineNotReached = contains (to $ deadline dat) $ txInfoValidRange info
+
+
         deadlinePassed :: Bool
-        deadlinePassed = contains (from $ deadline dat + 1) $ txInfoValidRange info
+        deadlinePassed = before (deadline dat) $ txInfoValidRange info
 
         deadlineNotReached :: Bool
-        deadlineNotReached = contains (to $ deadline dat) $ txInfoValidRange info
-
+        deadlineNotReached = after (deadline dat) $ txInfoValidRange info
 
 
 
