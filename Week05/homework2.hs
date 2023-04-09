@@ -17,7 +17,7 @@ import Plutus.V2.Ledger.Api
 import qualified PlutusTx
 import           PlutusTx.Prelude     (Bool (False), ($), (.), Eq ((==)), (&&), any)
 import           Utilities            (wrapPolicy)
-import Plutus.V1.Ledger.Value (flattenValue)
+import Plutus.V1.Ledger.Value (flattenValue, TokenName (TokenName))
 
 {-# INLINABLE mkEmptyNFTPolicy #-}
 -- Minting policy for an NFT, where the minting transaction must consume the given UTxO as input
@@ -28,12 +28,15 @@ mkEmptyNFTPolicy _oref () _ctx = hasUTxO && checkTokenName
         info :: TxInfo
         info = scriptContextTxInfo _ctx
 
+        emptyToken :: TokenName
+        emptyToken = TokenName ""
+
         hasUTxO :: Bool
         hasUTxO = any (\i -> txInInfoOutRef i  == _oref) $ txInfoInputs info
 
         checkTokenName :: Bool
         checkTokenName = case flattenValue (txInfoMint info) of
-            [(_, tn'', amt)] -> tn'' == "" && amt == 1
+            [(_, tn'', amt)] -> tn'' == emptyToken && amt == 1
             _                -> False
 
 
