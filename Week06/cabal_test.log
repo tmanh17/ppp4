@@ -1,0 +1,21 @@
+root@9cd6ff6a7dbb:/workspace/code/Week06# cabal test week06-TExploitableSwap
+Build profile: -w ghc-8.10.7 -O1
+In order, the following will be built (use -v for more details):
+ - week06-0.1.0.0 (lib) (file lecture/ExploitableSwap.hs changed)
+ - week06-0.1.0.0 (test:week06-TExploitableSwap) (dependency rebuilt)
+Preprocessing library for week06-0.1.0.0..
+Building library for week06-0.1.0.0..
+[3 of 3] Compiling ExploitableSwap  ( lecture/ExploitableSwap.hs, /workspace/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week06-0.1.0.0/build/ExploitableSwap.o, /workspace/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week06-0.1.0.0/build/ExploitableSwap.dyn_o )
+Preprocessing test suite 'week06-TExploitableSwap' for week06-0.1.0.0..
+Building test suite 'week06-TExploitableSwap' for week06-0.1.0.0..
+Running 1 test suites...
+Test suite week06-TExploitableSwap: RUNNING...
+Catch double spend with testing
+  Normal spending: OK (0.04s)
+  Double spending: OK
+
+All 2 tests passed (0.04s)
+Test suite week06-TExploitableSwap: PASS
+Test suite logged to:
+/workspace/code/dist-newstyle/build/aarch64-linux/ghc-8.10.7/week06-0.1.0.0/t/week06-TExploitableSwap/test/week06-0.1.0.0-week06-TExploitableSwap.log
+1 of 1 test suites (1 of 1 test cases) passed.
