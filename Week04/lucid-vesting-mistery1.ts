@@ -22,6 +22,7 @@ const lucid = await Lucid.new(
   "Preview"
 );
 
+
 // load local stored seed as a wallet into lucid
 lucid.selectWalletFromSeed(secretSeed);
 const addr: Address = await lucid.wallet.address();
@@ -65,7 +66,7 @@ const VestingDatum = Data.Object({
 type VestingDatum = Data.Static<typeof VestingDatum>;
 
 // Set the vesting deadline
-const deadlineDate: Date = new Date("2023-04-05T00:00:00Z")
+const deadlineDate: Date = new Date("2024-04-05T00:00:00Z")
 const deadlinePosIx = BigInt(deadlineDate.getTime());
 const currentTime = BigInt(new Date().getTime());
 
@@ -75,12 +76,13 @@ const beneficiaryPKH: string = details.paymentCredential.hash
 
 // Creating a datum with a beneficiary and deadline
 const datum: VestingDatum = {
+    // beneficiary1: '09e0f16d5cd55fbe588bdfb39ec0acb975e5fa921145230359670cc7',
     beneficiary1: beneficiaryPKH,
     beneficiary2: beneficiaryPKH,
     deadline: deadlinePosIx,
 };
 
-console.log("datum:", datum)
+// console.log("datum:", datum)
 // An asynchronous function that sends an amount of Lovelace to the script with the above datum.
 async function vestFunds(amount: bigint): Promise<TxHash> {
     const dtm: Datum = Data.to<VestingDatum>(datum,VestingDatum);
@@ -93,11 +95,30 @@ async function vestFunds(amount: bigint): Promise<TxHash> {
     return txHash
 }
 
+function filter(utxo, pkh) {
+    try{
+        const utxoDatum = Data.from(utxo.datum)['fields']
+        
+        const datumParam: VestingDatum = {
+            beneficiary1: utxoDatum[0],
+            beneficiary2: utxoDatum[1],
+            deadline: utxoDatum[2],
+        }
+        if (datumParam.beneficiary1 == pkh || datumParam.beneficiary2 == pkh) console.log("datum:", utxo.datum, datumParam)
+        return (pkh == datumParam.beneficiary1 && datumParam.deadline >= currentTime) || (pkh == datumParam.beneficiary2 && datumParam.deadline < currentTime)
+        // return (pkh == datumParam.beneficiary2 && datumParam.deadline <= currentTime)
+        // return (pkh == datumParam.beneficiary1 && datumParam.deadline > currentTime)
+    } catch (err) {
+        
+    }
+    return false
+}
+
 async function claimVestedFunds(): Promise<TxHash> {
     const dtm: Datum = Data.to<VestingDatum>(datum,VestingDatum);
     const utxoAtScript: UTxO[] = await lucid.utxosAt(vestingAddress);
-    const ourUTxO: UTxO[] = utxoAtScript.filter((utxo) => utxo.datum == dtm);
-    console.log(ourUTxO)
+    const ourUTxO: UTxO[] = utxoAtScript.filter((utxo) => filter(utxo, beneficiaryPKH));
+    console.log("ourUTxO: ", ourUTxO)
     if (ourUTxO && ourUTxO.length > 0) {
         const tx = await lucid
             .newTx()
@@ -105,6 +126,7 @@ async function claimVestedFunds(): Promise<TxHash> {
             .addSignerKey(beneficiaryPKH)
             .attachSpendingValidator(vestingScript)
             .validFrom(Date.now()-100000)
+            .validTo(Date.now()+100000)
             .complete();
 
         const signedTx = await tx.sign().complete();
@@ -114,5 +136,17 @@ async function claimVestedFunds(): Promise<TxHash> {
     else return "No UTxO's found that can be claimed"
 }
 
-console.log("tx hash vestFunds: ", await vestFunds(100000000n));
-console.log("output tx: ",await claimVestedFunds());
+async function filterUTxO() {
+    const utxoAtScript: UTxO[] = await lucid.utxosAt(vestingAddress);
+    const ourUTxO: UTxO[] = utxoAtScript.filter((utxo) => filter(utxo, beneficiaryPKH));
+    console.log("FilterUTxO: ", ourUTxO, ourUTxO[0].datum, ourUTxO[1].datum, ourUTxO[2].datum)
+}
+
+filterUTxO()
+// const dtm: Datum = Data.to<VestingDatum>(datum,VestingDatum);
+// const utxoAtScript: UTxO[] = await lucid.utxosAt(vestingAddress);
+// const ourUTxO: UTxO[] = utxoAtScript.filter((utxo) => filter(utxo, beneficiaryPKH));
+// console.log("ourUTxO: ", ourUTxO)
+
+// console.log("tx hash vestFunds: ", await vestFunds(100000000n));
+console.log("output tx: ", await claimVestedFunds());
